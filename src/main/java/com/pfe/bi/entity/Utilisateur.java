@@ -1,5 +1,7 @@
 package com.pfe.bi.entity;
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,7 @@ public class Utilisateur {
 	private String mdps;
 	//@Column(name = "etat_compte")
 	private String etat_compte;
-	//List<Privilege> privelages; 
+	ArrayList<Privilege> listePrivileges= new ArrayList<>(); 
 	
 	public Utilisateur() {
 		super();		
@@ -66,5 +68,12 @@ public class Utilisateur {
 		this.etat_compte = etat_compte;
 	}
 
-	
+	public ArrayList<Privilege> getListePrivileges() {
+		return listePrivileges;
+	}
+
+	public void setListePrivileges(ArrayList<Privilege> listePrivileges) {
+		this.listePrivileges = listePrivileges;
+	}
+
 }
