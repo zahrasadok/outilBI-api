@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
 @Entity
 @Table(name = "utilisateur", schema = "admin")
 public class Utilisateur {
@@ -22,7 +24,10 @@ public class Utilisateur {
 	private String mdps;
 	//@Column(name = "etat_compte")
 	private String etat_compte;
-	ArrayList<Privilege> listePrivileges= new ArrayList<>(); 
+	@Transient
+	ArrayList<Privilege> listePrivileges= new ArrayList<>();
+	@Transient
+	ArrayList<PrivilegeUtilisateur> listePrivilegesUtilisateurs= new ArrayList<>();
 	
 	public Utilisateur() {
 		super();		
@@ -76,4 +81,13 @@ public class Utilisateur {
 		this.listePrivileges = listePrivileges;
 	}
 
+	public ArrayList<PrivilegeUtilisateur> getListePrivilegesUtilisateurs() {
+		return listePrivilegesUtilisateurs;
+	}
+
+	public void setListePrivilegesUtilisateurs(ArrayList<PrivilegeUtilisateur> listePrivilegesUtilisateurs) {
+		this.listePrivilegesUtilisateurs = listePrivilegesUtilisateurs;
+	}
+
+	
 }

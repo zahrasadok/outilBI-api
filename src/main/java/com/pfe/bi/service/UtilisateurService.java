@@ -6,20 +6,24 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 import com.pfe.bi.entity.Utilisateur;
+
 import com.pfe.bi.repository.UtilisateurRepository;
 
 @Service
 public class UtilisateurService {
 	
+	
 	@Autowired
 		private UtilisateurRepository utilisateurRepository;
 		
+	//ajouter un nouvel utilisateur
+		
 	public Utilisateur save(Utilisateur utilisateur) {
-			return utilisateurRepository.save(utilisateur);
+					return utilisateurRepository.save(utilisateur);
 		}
 		
+	//quoi retourner dans chaque cas (Login)
 	public String returnLogin(Utilisateur utilisateurAVerifiee) {
 		if (utilisateurAVerifiee.getNom_utilisateur().equals("admin") &&
 				utilisateurAVerifiee.getMdps().equals("admin")){
