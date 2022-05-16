@@ -1,13 +1,14 @@
 package com.pfe.bi.service;
 
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.pfe.bi.entity.Privilege;
 import com.pfe.bi.entity.Utilisateur;
-
+import com.pfe.bi.repository.PrivilegeRepository;
 import com.pfe.bi.repository.UtilisateurRepository;
 
 @Service
@@ -16,6 +17,8 @@ public class UtilisateurService {
 	
 	@Autowired
 		private UtilisateurRepository utilisateurRepository;
+	@Autowired
+		private PrivilegeRepository privilegeRepository;
 		
 	//ajouter un nouvel utilisateur
 		
@@ -43,9 +46,10 @@ public class UtilisateurService {
 		return utilisateurRepository.findAll();
 	}
 
-	public  Optional<Utilisateur> findById(Long idUtilisateur) {
-		
-		return utilisateurRepository.findById(idUtilisateur);
+	public  Utilisateur findById(Long idUtilisateur) {
+		if (utilisateurRepository.findById(idUtilisateur).isPresent())
+		return utilisateurRepository.findById(idUtilisateur).get();
+		else return null;
 	}
 
 	public Utilisateur utilisateur(Utilisateur utilisateurApresModification) {
@@ -60,5 +64,35 @@ public class UtilisateurService {
 		return utilisateurEnvoyerBD;
 	}
 
-		
+	// ajouter un privilege à un utilisateur
+	public boolean ajouterPrivilegeUtilsateur(Long id_utilisateur,
+			Long id_privilege)	{
+		try {
+		Privilege privilege= privilegeRepository.getById(id_privilege);
+		Utilisateur utilisateur= utilisateurRepository.getById(id_utilisateur);
+		List<Privilege> listeAcceder=new LinkedList<>(utilisateur.getListePrivileges());
+		listeAcceder.add(privilege);
+		utilisateur.setListePrivileges(listeAcceder);
+		utilisateurRepository.save(utilisateur);
+		return true;}
+		catch (Exception e) {
+			return false;
+		}
+	}
+	
+	// supprimer un privilege à un utilisateur
+		public boolean enleverPrivilegeUtilsateur(Long id_utilisateur,
+				Long id_privilege)	{
+			try {
+			Privilege privilege= privilegeRepository.getById(id_privilege);
+			Utilisateur utilisateur= utilisateurRepository.getById(id_utilisateur);
+			List<Privilege> listeAcceder=new LinkedList<>(utilisateur.getListePrivileges());
+			listeAcceder.add(privilege);
+			utilisateur.setListePrivileges(listeAcceder);
+			utilisateurRepository.delete(utilisateur);
+			return true;}
+			catch (Exception e) {
+				return false;
+			}
+		}
 }

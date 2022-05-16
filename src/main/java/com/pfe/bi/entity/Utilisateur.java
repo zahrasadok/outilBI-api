@@ -1,14 +1,16 @@
 package com.pfe.bi.entity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.data.annotation.Transient;
 
 @Entity
 @Table(name = "utilisateur", schema = "admin")
@@ -18,16 +20,16 @@ public class Utilisateur {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	//@Column(name = "nom_utilisateur")
+	
 	private String nom_utilisateur;
 	//@Column(name = "mdps") //mot de passe
 	private String mdps;
-	//@Column(name = "etat_compte")
 	private String etat_compte;
-	@Transient
-	ArrayList<Privilege> listePrivileges= new ArrayList<>();
-	@Transient
-	ArrayList<PrivilegeUtilisateur> listePrivilegesUtilisateurs= new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name="acceder", schema="admin")
+	List<Privilege> listePrivileges= new ArrayList<>();
+	//@Transient
+	//ArrayList<PrivilegeUtilisateur> listePrivilegesUtilisateurs= new ArrayList<>();
 	
 	public Utilisateur() {
 		super();		
@@ -73,20 +75,12 @@ public class Utilisateur {
 		this.etat_compte = etat_compte;
 	}
 
-	public ArrayList<Privilege> getListePrivileges() {
+	public List<Privilege> getListePrivileges() {
 		return listePrivileges;
 	}
 
-	public void setListePrivileges(ArrayList<Privilege> listePrivileges) {
+	public void setListePrivileges(List<Privilege> listePrivileges) {
 		this.listePrivileges = listePrivileges;
-	}
-
-	public ArrayList<PrivilegeUtilisateur> getListePrivilegesUtilisateurs() {
-		return listePrivilegesUtilisateurs;
-	}
-
-	public void setListePrivilegesUtilisateurs(ArrayList<PrivilegeUtilisateur> listePrivilegesUtilisateurs) {
-		this.listePrivilegesUtilisateurs = listePrivilegesUtilisateurs;
 	}
 
 	
